@@ -1,0 +1,75 @@
+version: '3.8'
+services:
+
+  # FRONT END
+  frontend:
+    build: ./frontend
+    ports:
+      - 6969:5000
+    volumes:
+      - ./frontend:/app:delegated
+    networks:
+      - default
+
+
+
+  ollama:
+    container_name: ollama
+    image: ollama/ollama
+    volumes:
+      - ./ollama:/root/.ollama:delegated
+    ports:
+      - 11435:11434
+    pull_policy: always
+    tty: true
+    restart: always
+    networks:
+      - default
+
+  image_generator:
+    build: ./image_generator
+    ports:
+      - "11437:5000"
+    volumes:
+      - ./image_generator:/app/
+      - ./models:/root/.cache/huggingface/hub
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  
+  #text-generator:
+  #  container_name: text-generator
+  #  build:
+  #    context: ./text_generator
+  #    dockerfile: ${dockerfile}
+  #  volumes:
+  #    - ./text_generator:/app:delegated
+  #  ports:
+  #    - 11436:5000
+  #  pull_policy: always
+  #  tty: true
+  #  restart: always
+  #  networks:
+  #    - default
+
+
+
+  database:
+    image: postgres
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db_name
+    volumes:
+      - ./database/db:/var/lib/postgresql/data
+    networks:
+      - default
+
+networks:
+  default:
+    driver: host

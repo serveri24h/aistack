@@ -1,0 +1,16 @@
+# Langchain 
+langchain
+langchain_community
+langchain-chroma
+langchain-ollama
+
+# Vector Databases
+chromadb
+
+# Server
+flask
+Flask-Cors
+
+# Document Readers
+PyPDF2
+pypdf

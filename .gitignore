@@ -1,0 +1,6 @@
+models/*
+image_generator/generated/*
+**/__pycache__
+frontend/node_modules
+ollama/*
+database/db/*

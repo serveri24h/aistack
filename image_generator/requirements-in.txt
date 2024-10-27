@@ -1,0 +1,13 @@
+
+# server
+flask
+flask_cors
+
+# image librarts
+pillow
+
+# ai
+diffusers
+torch==2.4.0
+transformers
+accelerate
